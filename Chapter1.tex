@@ -14,6 +14,10 @@
 \usepackage{amssymb}%
 \usepackage{graphicx}
 
+
+\setbeamertemplate{itemize/enumerate body begin}{\small}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Statisitcal Thinking in Biology Research}
@@ -52,7 +56,75 @@
 
 \begin{frame}{Message 1: A small p-value is not always evidence of a treatment effect}
 
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message1}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Vaccine challenge experiment:}
+      \begin{itemize} 
+       \item 6 mice/group (saline/low dose/high dose)
+       \item All mice challenged with Shigella
+       \item Followed for 14 days
+       \item  Outcome: Symptom score average Days 2 - 8
+      \end{itemize}
+      \end{block}
+      
+      \begin{alertblock}{}
+       One-way ANOVA (post-hoc Bonferroni) p=0.04
+      \end{alertblock}
+
+    \end{column}
+  \end{columns}
+  
+  \pause \vspace{0.3cm}
+  \emph{\large Do you think the vaccine works? What is strange?}
+  
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Message 1: A small p-value is not always evidence of a treatment effect}
+ \vspace{-0.2cm}
+ \begin{center}
+  \includegraphics[width=\textwidth]{Figures/mice}
+ \end{center}
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Message 2: p-values from simple comparisons cannot tell us when differences are “different”}
+ 
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message2}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Are temperature mechanisms modified in a genetically modified tomato plant?}
+      \begin{itemize}
+	\item Genotypes: WT/mutant 
+	\item Water condition: Normal/Drought
+	\item Leaf temperature measured
+      \end{itemize}
+      \end{block}
+  
+    \end{column}
+  \end{columns}
+   
+   
+   \begin{alertblock}{Comparisons made using t-tests}
+Evidence of difference + No evidence of difference $\neq$ Evidence that differences are different.
+      \end{alertblock}
+      
+      
+\end{frame}
+%%%%%%%%%%%
+
 
 \end{document}
