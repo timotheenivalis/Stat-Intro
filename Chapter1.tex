@@ -49,6 +49,22 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{A bit of history of statistical methods}
+ 
+ R.A. Fisher: 1890-1962
+ \only<1>{\begin{center}
+  \includegraphics[width=0.5\textwidth]{Figures/fisher}
+ \end{center}}
+ 
+ \only<2>{\begin{center}
+  \includegraphics[width=0.9\textwidth]{Figures/fields}
+ \end{center}}
+ 
+ Statistical Principles for Research Workers (1925)
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Cautionary tales from the front}
 
 \end{frame}
@@ -88,6 +104,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Message 1: A small p-value is not always evidence of a treatment effect}
+\pause
  \vspace{-0.2cm}
  \begin{center}
   \includegraphics[width=\textwidth]{Figures/mice}
@@ -97,7 +114,7 @@
 %%%%%%%%%%%
 
 \begin{frame}{Message 2: p-values from simple comparisons cannot tell us when differences are “different”}
- 
+ \pause
   \begin{columns}
     \begin{column}{0.5\textwidth}
 	\begin{center}
@@ -123,6 +140,134 @@ Evidence of difference + No evidence of difference $\neq$ Evidence that differen
       \end{alertblock}
       
       
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Message 3: Interpreting experimental results needs more than t-tests}
+ \pause
+ Research question: Are mice susceptible to obesity when exposed to a high fat diet?
+ 
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message3}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Experimental set-up:}
+      \begin{itemize}
+	\item 37 mice: 16 NODk /21 WT
+	\item Randomised to either regular or high fat diet
+	\item Monitored for 14 weeks
+	\item Outcome measure: Body weight (g)
+	\item Experimental factors: Diet (2), Strain (2), Time (8)
+      \end{itemize}
+      \end{block}
+      \tiny Acknowledgements: Ainy Hussain, PhD student 2013
+    \end{column}
+  \end{columns}
+   
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Message 4: Knowing how to combine information across subgroups  can improve inference}
+ 
+ \pause 
+ 
+ Comparing yield in five barley varieties (1930s) \\
+ Experimental factors: 5 varieties of barley, 6 locations, 2 time points. Outcome measure: yield
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message4a}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.4\textwidth}
+  
+    \end{column}
+  \end{columns}
+      \tiny Acknowledgements: MASS R-package
+   
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Message 4: Knowing how to combine information across subgroups  can improve inference}
+ 
+  
+ Comparing yield in five barley varieties (1930s) \\
+ Experimental factors: 5 varieties of barley, 6 locations, 2 time points. Outcome measure: yield
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message4b}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Controlling for other sources of variation:}
+      \begin{itemize}
+	\item Controlling for year = comparing yield WITHIN years and combining these
+      \end{itemize}
+      \end{block}
+      \tiny Acknowledgements: MASS R-package
+    \end{column}
+  \end{columns}
+   
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Message 4: Knowing how to combine information across subgroups  can improve inference}
+ 
+  
+ Comparing yield in five barley varieties (1930s) \\
+ Experimental factors: 5 varieties of barley, 6 locations, 2 time points. Outcome measure: yield
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message4c}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Controlling for other sources of variation:}
+      \begin{itemize}
+	\item Control for year = compare yield WITHIN years and combine these
+	\item Control for location = compare yield WITHIN locations and combine these
+      \end{itemize}
+      \end{block}
+      \tiny Acknowledgements: MASS R-package
+    \end{column}
+  \end{columns}
+   
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Message 4: Knowing how to combine information across subgroups  can improve inference}
+ 
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+	\begin{center}
+	\includegraphics[width=\textwidth]{Figures/message4d}
+	\end{center}
+    \end{column}
+    
+    \begin{column}{0.5\textwidth}
+    \begin{block}{Controlling for other sources of variation:}
+      \begin{itemize}
+	\item Control for year = compare yield WITHIN years and combine these
+	\item Control for location = compare yield WITHIN locations and combine these
+      \end{itemize}
+      \end{block}
+      \tiny Acknowledgements: MASS R-package
+    \end{column}
+  \end{columns}
+   
 \end{frame}
 %%%%%%%%%%%
 
