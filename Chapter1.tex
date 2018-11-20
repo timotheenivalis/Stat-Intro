@@ -63,6 +63,8 @@
 \usepackage{amssymb}%
 \usepackage{graphicx}
 
+\usepackage{tikz}
+
 
 \setbeamertemplate{itemize/enumerate body begin}{\small}
 
@@ -474,11 +476,11 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
 \end{block}
 
 \textbf{Statistical model}\\
- DATA = {\color{blue}{Mean for C3}} + {\color{red}{Difference C4-C3}} + {\color{orange}{Noise}}\\
+ {\color{purple}{Respiration}} = {\color{blue}{Mean for C3}} + {\color{red}{Difference C4-C3}} * {\color{orange}{(is C4?)}} + {\color{gray}{Noise}}\\
  \pause
 
- $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$
- 
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
+
  ${\color{blue}{A}} $ and ${\color{red}{D}}$ are the model PARAMETERS. \\
  We want to infer whether ${\color{red}{D}}$ is different from 0
 
@@ -486,9 +488,9 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
 %%%%%%%%%%%
 
 \begin{frame}{Example 1: Does dark respiration differ between C3 and C4 plants?}
- $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$\\
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
 
-  Can we separate the signal ${\color{red}{D}}$ from the noise ${\color{orange}{\epsilon}}$ ?
+  Can we separate the signal ${\color{red}{D}}$ from the noise ${\color{gray}{\epsilon}}$ ?
 
  \pause
  
@@ -502,7 +504,7 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
  
  \pause
  
- $ t = \frac{\color{red}{D}}{\text{\color{orange}{Variation of }}\color{orange}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
+ $ t = \frac{\color{red}{D}}{\text{\color{gray}{Variation of }}\color{gray}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
 
 \end{frame}
 %%%%%%%%%%%%
@@ -514,7 +516,7 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
  \includegraphics[width=\textwidth]{Figures/figure/ttestdiff-1}
  \end{column}
  \begin{column}{0.5\textwidth}
-  $ t = \frac{\color{red}{D}}{\text{\color{orange}{Variation of }}\color{orange}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
+  $ t = \frac{\color{red}{D}}{\text{\color{gray}{Variation of }}\color{gray}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
 
   \vspace{1cm}
   Is it easier when the true difference is 0.5 or when it is 3 ?
@@ -538,7 +540,7 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
  \includegraphics[width=\textwidth]{Figures/figure/ttestsample-1}
  \end{column}
  \begin{column}{0.5\textwidth}
-  $ t = \frac{\color{red}{D}}{\text{\color{orange}{Variation of }}\color{orange}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
+  $ t = \frac{\color{red}{D}}{\text{\color{gray}{Variation of }}\color{gray}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
 
   \vspace{1cm}
   Is it easier when sample size is 4 or when it is 100?
@@ -564,7 +566,7 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
  \includegraphics[width=0.9\textwidth]{Figures/figure/ttestvar-1}
  \end{column}
  \begin{column}{0.5\textwidth}
-  $ t = \frac{\color{red}{D}}{\text{\color{orange}{Variation of }}\color{orange}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
+  $ t = \frac{\color{red}{D}}{\text{\color{gray}{Variation of }}\color{gray}{\epsilon}} \times \frac{\text{Sample Size}}{\sqrt{2}}$
 
   \vspace{1cm}
   Is it easier when unexplained variation is 1 or when it is 3?
@@ -684,7 +686,8 @@ mean in group C3 mean in group C4
 \end{kframe}
 \end{knitrout}
 
-\pause $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$
+\pause
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
 
 \end{frame}
 %%%%%%%%%%%
@@ -727,7 +730,8 @@ Residuals   10  9.292  0.9292
 \end{kframe}
 \end{knitrout}
 
-\pause $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$
+\pause
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
 
 \end{frame}
 %%%%%%%%%%%
@@ -769,7 +773,8 @@ F-statistic: 0.8794 on 1 and 10 DF,  p-value: 0.3705
 \end{kframe}
 \end{knitrout}
 
-\pause $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$
+\pause
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
 
 \end{frame}
 %%%%%%%%%%%
@@ -799,7 +804,8 @@ Confidence level used: 0.95
 \end{kframe}
 \end{knitrout}
 
-\pause $DATA = {\color{blue}{A}} + {\color{red}{D}} + {\color{orange}{\epsilon}}$
+\pause
+ ${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$
 
 \end{frame}
 %%%%%%%%%%%
@@ -810,15 +816,21 @@ Confidence level used: 0.95
 %%%%%%%%%%%%
 
 
-\begin{frame}{}
- 
+\begin{frame}{Three equivalent ways to look at data}
+ \centering
+ \only<1>{T-test, focus on difference between two means\\
+ \includegraphics[width=0.8\textwidth]{Figures/figure/ttestrep-1}}
+ \only<2>{ANOVA, focus on variation within VS. between\\
+ \includegraphics[width=0.8\textwidth]{Figures/figure/aovrep-1}}
+ \only<3>{Linear regression, focus on rate of change\\
+ \includegraphics[width=0.8\textwidth]{Figures/figure/lmrep-1}}
 \end{frame}
 %%%%%%%%%%%%
 
 
 \begin{frame}{All is one\dots}
 \pause
-  \begin{block}{\dots but \texttt{lm()} rules!}
+  \begin{block}{\dots but \texttt{lm()} rules (IMH)}
     \begin{itemize}
       \item t-test, ANOVA, regression and others can be mathematically equivalent
       \item In R, \texttt{lm()} and related functions can do them all\dots
@@ -830,5 +842,198 @@ Confidence level used: 0.95
 
 
 % more on LM, general steps, and another example
+\begin{frame}{Focus on linear models}
+  \textbf{{\color{purple}{Response}} = {\color{blue}{Intercept}} + {\color{red}{Slope}} $\times$ {\color{orange}{Predictor}} + {\color{gray}{Error}}} \\
+
+\centering
+\includegraphics[width=0.6\textwidth]{Figures/figure/lmprinc-1}
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{A simple linear model}
+  \textbf{{\color{purple}{Response}} = {\color{blue}{Intercept}} + {\color{red}{Slope}} $\times$ {\color{orange}{Predictor}} + {\color{gray}{Error}}} \\
+  \vspace{-0.1cm}
+  \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+  lm(response ~ 1 + predictor1 + predictor2, data=data)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+equivalent to
+  \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+  lm(response ~ predictor1 + predictor2, data=data) \end{verbatim}
+\end{kframe}
+\end{knitrout}
+equivalent to
+  \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+  lm(response ~ predictor2 + predictor1, data=data) \end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{itemize}
+  \item Intercept can be explicit or implicit
+  \item Can remove intercept with \texttt{\dots $\sim $ 0 + \dots}
+  \item Error is implicit
+  \item Feed the option \texttt{data=} to keep code short, reliable and flexible
+  \item Order of predictors do not matter 
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{Another look at essential steps}
+
+ 
+\begin{frame}{General approach}
+
+\begin{center}
+  \begin{tikzpicture}
+    \node (sq) at (0,-1) {\color{red}{1. Scientific question}};
+    \pause
+    \node (mo) at (0,-2) {2. Model and Statistical question};
+    \draw[->, thick] (sq)--(mo);
+    \pause
+    \node (dac) at (6,-2) {\color{red}{3. Data collection}};
+    \draw[<->, thick] (mo)--(dac);
+    \pause
+    \node (est) at (0,-3) {4. Estimation};
+        \draw[->, thick] (mo)--(est);
+    \node (unc) at (0,-3.5) {4.b Uncertainty and statistical significance};
+    \pause
+    
+    \node (che) at (0,-5) {5. Check assumptions, visualize results};
+        \draw[->, thick] (unc)--(che);
+    \draw[->, thick] (che.west) to [out=150, in=210] (mo.west);
+
+    \pause
+    \node (int) at (0,-6) {\color{red}{6. Interpret and think about the biology}};
+        \draw[->, thick] (che)--(int);
+
+  \draw[rounded corners, color=blue] (-4.5,-1.5) rectangle (4,-5.5);
+  \node[anchor=north west] (r) at (-4.5,-1.5) {\includegraphics[width=0.1\textwidth]{Figures/r}};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Back to C3/C4}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+lmL<-lm(rrarea ~ Plant_type, data = resp_L)
+summary(lmL)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\vspace{-0.15cm}
+\pause
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+...
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   2.81857    0.07856  35.878 6.72e-12 ***
+Plant_typeC4  0.44235    0.11110   3.982  0.00259 ** ---
+...
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\textbf{Estimation:\\}
+${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}} + {\color{gray}{\epsilon}}$\\
+
+\only<2>{
+${\color{blue}{A}}=?$, 
+${\color{red}{D}}=?$
+}
+\only<3->{
+${\color{blue}{A}}=2.81857$, 
+${\color{red}{D}}= 0.44235$\\
+}
+
+\only<4->{
+\textbf{Uncertainty:\\}
+For ${\color{red}{D}}$ SE= 0.11110 ; p-value=0.00259\\
+}
+\vspace{0.2cm}
+\only<5->{
+\textbf{What do we do next?}
+}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Check assumptions, visualize results}
+\pause 
+Linear model basic assumptions
+ \begin{block}{}
+     \begin{itemize}[<+->]
+       \item Predictor not perfectly correlated \\ \textit{Risk: Model won't run, unstable convergence, or huge SE}
+       \item {\color{red!20!black}{Little error in predictors}}\\ \textit{Risk: bias estimates (underestimate with Gaussian error)}
+       \item {\color{red!50!black}{Gaussian error distribution}}\\ \textit{Risk: Poor predictions}
+       \item {\color{red!70!black}{Homoscedasticity (constant error variance)}}\\ \textit{Risk: Over-optimistic uncertainty, unreliable predictions}
+       \item {\color{red!99!black}{Independence of error}}\\ \textit{Risk: Bias and over-optimistic uncertainty}
+     \end{itemize}
+ \end{block}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Check assumptions, visualize results}
+
+Assessing model assumptions in R:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+lmL<-lm(rrarea ~ Plant_type, data = resp_L)
+plot(lmL)
+summary(lmL)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Check assumptions, visualize results}
+Visualize and report results
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+lm1.results<-summary(emmeans(lm1,~Plant_type))
+
+ggplot(lm1.results,aes(Plant_type,emmean, fill=Plant_type))+
+  geom_bar(stat="identity", width=.4)+
+  geom_errorbar(aes(ymin =lm1.results$lower.CL, 
+  ymax = lm1.results$upper.CL), width=.2)+
+  ylim(0,4)+
+  geom_point(data=resp_L, aes(x=Plant_type, y=rrarea), color="red")+
+  labs(y = "Dark Respiration (units)")+
+  geom_text(aes(x=1.5, y=3.5, label="p=0.002"))  
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Check assumptions, visualize results}
+
+\includegraphics[width=0.8\textwidth]{Figures/C3C4output}
+\end{frame}
+%%%%%%%%%%%
 
 \end{document}
