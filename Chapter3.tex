@@ -1,0 +1,324 @@
+\documentclass{beamer}
+
+\usepackage{alltt}%
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+
+%\usepackage{listings}
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{booktabs}
+
+\setbeamertemplate{itemize/enumerate body begin}{\small}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Statistical Modelling: Understanding Mean Structure}
+\subtitle{Chapter 3}
+\author{Terry Neeman and Timoth\'ee Bonnet}
+\date{\today}
+
+\begin{document}
+
+%\lstset{language=R}%code
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[currentsection,sectionstyle=show/show,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
+  \end{frame}
+}
+
+
+\begin{frame}{}
+\maketitle
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Key components of a statistical model of an experiment}
+\begin{itemize}
+  \item Outcome measure
+  \begin{itemize}
+   \item Response variable
+   \item Measure of interest
+  \end{itemize}
+  \item Experimental factors 
+  \begin{itemize}
+   \item Conditions that can be manipulated 
+   \item Conditions of interest (e.g. genotype, gender) 
+   \item Main questions: do the conditions impact upon the outcome measure?
+  \end{itemize}
+  \item Blocking factors
+  \begin{itemize}
+   \item Conditions (not of interest) that may impact upon the outcome measure
+   \item Sources of variation in the experiment that need to be controlled for
+   \item Clustering of experimental units
+  \end{itemize}
+\end{itemize}
+
+\vspace{0.2cm}
+ALWAYS BEGIN WITH A RESEARCH QUESTION
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Example 1: Can drought tolerance in Arabidopsis be improved through genetic modification?}
+
+\begin{block}{Context}
+  Outcome measure: Leaf water retention LWR (\%)\\
+  Experimental factors:
+    \begin{itemize}
+     \item Gene A, genotypes \texttt{(AA/aa)}
+     \item Gene B, genotypes \texttt{(BB/bb)}
+    \end{itemize}
+\end{block}
+How many parameters?
+        
+\pause
+
+\begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{4 treatments} & \multicolumn{2}{l|}{Gene A}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & AA & aa\\
+ 	    \midrule
+      Gene B & BB & $C$ & $C+A$\\
+      \cmidrule(lr){3-4}
+ 	    & bb & $C+B$ & $C+A+B+D$\\
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+\end{frame}
+%%%%%%%%%%%%%%
+
+\begin{frame}{Two different models}
+
+\textbf{Additive model - 3 parameters}
+\begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{4 treatments} & \multicolumn{2}{l|}{Gene A}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & AA & aa\\
+ 	    \midrule
+      Gene B & BB & $C$ & $C+A$\\
+      \cmidrule(lr){3-4}
+ 	    & bb & $C+B$ & $C+A+B$\\
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+
+\textbf{Full factorial model / Interactive model  - 4 parameters }
+\begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{4 treatments} & \multicolumn{2}{l|}{Gene A}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & AA & aa\\
+ 	    \midrule
+      Gene B & BB & $C$ & $C+A$\\
+      \cmidrule(lr){3-4}
+ 	    & bb & $C+B$ & $C+A+B+D$\\
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+
+ \textbf{\emph{What is different? What does the additive model assume?}}
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{Which model to use?}
+ \textbf{Additive model - 3 parameters}
+\begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{4 treatments} & \multicolumn{2}{l|}{Gene A}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & AA & aa\\
+ 	    \midrule
+      Gene B & BB & $C$ & $C+A$\\
+      \cmidrule(lr){3-4}
+ 	    & bb & $C+B$ & $C+A+B$\\
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+
+\textbf{Full factorial model / Interactive model - 4 parameters }
+\begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{4 treatments} & \multicolumn{2}{l|}{Gene A}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & AA & aa\\
+ 	    \midrule
+      Gene B & BB & $C$ & $C+A$\\
+      \cmidrule(lr){3-4}
+ 	    & bb & $C+B$ & $C+A+B+D$\\
+	    \bottomrule
+  \end{tabular}
+\end{center}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Analysis in R}
+ 
+ \begin{enumerate}
+  \item Import data ''Prac3mockLWR.csv''
+  \item Visualize data
+  \item Model data
+  \item Assess model assumptions
+ \end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Analysis in R}
+ 
+ 1. Import data ''Prac3mockLWR.csv''
+ 
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+  LWR <- read.csv(“Prac3mockLWR.csv")
+ \end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Analysis in R}
+ 
+2. Visualise the data
+
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+
+ggplot(LWR, aes(GeneB,LWR,colour=GeneA)) +
+  geom_boxplot() + geom_point()
+ \end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+ Full factorial or additive?
+ 
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]{Analysis in R}
+ 
+3. Model data
+
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+lmadditive <- lm(LWR ~ GeneA + GeneB, data = LWR)
+summary(lmadditive)
+anova(lmadditive)
+ \end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+lminteraction <- lm(LWR ~ GeneA * GeneB, data = LWR)
+summary(lminteraction)
+anova(lminteraction)
+emmeans(lminteraction, pairwise ~ GeneA|GeneB)
+emmeans(lminteraction, pairwise ~ GeneB|GeneA)
+ \end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+What are the estimates for $A, B, C, D$ under each models?
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]{Analysis in R}
+ 
+4. Model assumptions
+
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+plot(lminteraction)
+ \end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%
+
+\end{document}
