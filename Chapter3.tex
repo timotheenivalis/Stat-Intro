@@ -126,14 +126,24 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
 \begin{frame}{Example 1: Can drought tolerance in Arabidopsis be improved through genetic modification?}
 
 \begin{block}{Context}
+\begin{columns}
+ \begin{column}{0.8\textwidth}
   Outcome measure: Leaf water retention LWR (\%)\\
   Experimental factors:
     \begin{itemize}
      \item Gene A, genotypes \texttt{(AA/aa)}
      \item Gene B, genotypes \texttt{(BB/bb)}
     \end{itemize}
+   \end{column}
+   \begin{column}{0.2\textwidth}
+    \includegraphics[width=0.7\textwidth]{Figures/arabid}
+    
+   \end{column}
+
+   \end{columns}
+   
 \end{block}
-How many parameters?
+How many parameters to describe the different genotypes combinations?
         
 \pause
 
@@ -320,5 +330,158 @@ plot(lminteraction)
 
 \end{frame}
 %%%%%%%%%%%
+
+\begin{frame}{Which cabbage cultivar has the higher Vitamin C content on average?}
+ \begin{block}{Research context}
+ \begin{columns}
+  \begin{column}{0.8\textwidth}
+   \begin{itemize}
+    \item 60 cabbage heads
+    \item 2 cultivars: c39 and c52
+    \item 3 planting dates: Days 16, 20, 21
+   \end{itemize}
+  \end{column}
+  \begin{column}{0.2\textwidth}
+    \includegraphics[width=0.9\textwidth]{Figures/cabbage}
+  \end{column}
+
+ \end{columns}
+ \end{block}
+
+ \only<1>{How many parameters to describe our scientific question?}
+ 
+ \pause
+ 
+ \begin{center}
+\begin{tabular}{|l | l | l | l | }
+\toprule
+  \multicolumn{2}{|l|}{} & \multicolumn{2}{l|}{Cultivar}\\
+  \cmidrule(lr){3-4}
+  \multicolumn{2}{|l|}{}  & c39 & c52\\
+ 	    \midrule
+      Planting& Day 16 & $A$ & $A+B$\\
+ 	 date   & Day 20 & $A+C$ & $A+B+C$\\
+		& Day 21 & $A+D$ & $A+B+D$\\
+		\midrule
+\multicolumn{2}{|l|}{Marginal means} &  & \\	
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{Which cabbage cultivar has the higher Vitamin C content on average?}
+ \textbf{Fit additive and interactive models in R}\\
+ Dataset ``Prac3cabbagedata.csv''
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}{Are temperature mechanisms modified in a genetically modified tomato plant?}
+ \begin{block}{Research context}
+ \begin{columns}
+  \begin{column}{0.8\textwidth}
+   \begin{itemize}
+    \item 2 tomato plants
+    \item 2 Genotypes: WT/mutant 
+    \item Watering condition: Normal/Drought
+    \item Leaf temperature measured
+   \end{itemize}
+  \end{column}
+  \begin{column}{0.2\textwidth}
+    \includegraphics[width=0.9\textwidth]{Figures/tomato}
+  \end{column}
+
+ \end{columns}
+ \end{block}
+  \only<1>{How many parameters to describe our scientific question?}
+
+   \pause
+ 
+ \begin{center}
+\begin{tabular}{|l | l | l | l | l |}
+\toprule
+  \multicolumn{2}{|l|}{} & \multicolumn{2}{l|}{Water condition} &\\
+  \cmidrule(lr){3-5}
+  \multicolumn{2}{|l|}{}  & Normal & Drought & Marginal means\\
+ 	    \midrule
+      Genotype & WT &  & &\\
+      \cmidrule(lr){2-5}
+		& mutant &  & &\\
+		\midrule
+\multicolumn{2}{|l|}{Marginal means} &  & &\\	
+	    \bottomrule
+  \end{tabular}
+\end{center}
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Are temperature mechanisms modified in a genetically modified tomato plant?}
+ Dataset ``Prac3droughtdata.csv''\\
+ Fit the appropriate model in R.\\
+ Compare genotypes and water conditions with emmeans
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Relationship diameter/density differ between tree species?}
+ 
+  \begin{block}{Research context}
+ \begin{columns}
+  \begin{column}{0.6\textwidth}
+   \begin{itemize}
+    \item \textit{Nothofagus} in the Andes
+    \item 41 plots with 3 species (StandTypes)
+    \item Outcome: Plot density
+    \item Factors: StandType, QuadDiam
+   \end{itemize}
+  \end{column}
+  \begin{column}{0.4\textwidth}
+    \includegraphics[width=0.7\textwidth]{Figures/forest}
+  \end{column}
+
+ \end{columns}
+ \end{block}
+ 
+ \pause
+ \includegraphics[width=0.7\textwidth]{Figures/trees}
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Which model to use}
+ \includegraphics[width=0.8\textwidth]{Figures/tree4mod}
+ 
+ Fit the models with ``Prac3forest.csv'' and answer the scientific question
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{Are NODk mice more susceptible to obesity when exposed to a high fat diet?}
+  
+  \begin{block}{Research context}
+ \begin{columns}
+  \begin{column}{0.5\textwidth}
+   \begin{itemize}
+    \item 37 mice: 16 NODk /21 WT
+    \item Randomised to either regular or high fat diet
+    \item Monitored for 14 weeks
+    \item Outcome measure: Body weight (g)
+    \item Experimental factors: Diet (2), Strain (2), Age (7)
+   \end{itemize}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \includegraphics[width=\textwidth]{Figures/micedata}
+  \end{column}
+
+ \end{columns}
+ \end{block}
+ 
+ Data ``Prac3diabeticmice.csv''
+ 
+\end{frame}
+%%%%%%%%%%%
+
 
 \end{document}
