@@ -1,0 +1,169 @@
+\documentclass{article}
+
+\begin{document}
+
+<<>>=
+library(ggplot2)
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+@
+
+<<ttestdiff, dev='tikz'>>=
+differ <- 3
+C3 <- rnorm(10, 2, 1)
+C4 <- rnorm(10, 2+differ, 1)
+
+differ2 <- 0.5
+C3b <- rnorm(10, 2, 1)
+C4b <- rnorm(10, 2+differ2, 1)
+
+dat <- data.frame(Respiration = c(C3,C4, C3b, C4b), Plant = rep(rep(c("C3", "C4"), each= 10), 2), difference= rep(c(3,0.5), each=20))
+
+ggplot(data = dat, aes(y=Respiration, x=Plant, color=Plant))+
+  theme_bw() +
+  geom_point() +
+  scale_fill_gradient(low="red", high="yellow") +
+  facet_grid(. ~ difference, labeller = label_both) +
+  theme(text = element_text(size=20))
+
+@
+
+
+<<ttestvar, dev='tikz'>>=
+differ <- 3
+C3 <- rnorm(10, 2, 1)
+C4 <- rnorm(10, 2+differ, 1)
+
+C3b <- rnorm(10, 2, 3)
+C4b <- rnorm(10, 2+differ, 3)
+
+dat <- data.frame(Respiration = c(C3,C4, C3b, C4b), Plant = rep(rep(c("C3", "C4"), each= 10), 2), variation= rep(c(1,3), each=20))
+
+ggplot(data = dat, aes(y=Respiration, x=Plant, color=Plant))+
+  theme_bw() +
+  geom_point() +
+  scale_fill_gradient(low="red", high="yellow") +
+  facet_grid(. ~ variation, labeller = label_both)+
+  theme(text = element_text(size=20))
+@
+
+
+<<ttestsample, dev='tikz'>>=
+differ <- 1
+C3 <- rnorm(100, 2, 1)
+C4 <- rnorm(100, 2+differ, 1)
+
+C3b <- rnorm(4, 2, 1)
+C4b <- rnorm(4, 2+differ, 1)
+
+dat <- data.frame(Respiration = c(C3,C4, C3b, C4b), Plant = c(rep(c("C3", "C4"), each= 100),rep(c("C3", "C4"), each= 4) ), sample= c(rep(100, times=200), rep(4, times=8)))
+
+ggplot(data = dat, aes(y=Respiration, x=Plant, color=Plant))+
+  theme_bw() +
+  geom_point() +
+  scale_fill_gradient(low="red", high="yellow") +
+  facet_grid(. ~ sample, labeller = label_both)+
+  theme(text = element_text(size=20))
+@
+
+
+<<tvalue, dev='tikz', fig.width=5, fig.height=4>>=
+tval <- seq(-5,5, length.out = 200)
+tprob <- sapply(tval, FUN = function(x){dt(x, df=1)})
+plot(tval, tprob, type="l", xlab="T-value", ylab= "Probability density", main="Expected t-values when $D=0$", lwd=5, las=1)
+@
+
+
+<<tvalueth, dev='tikz', fig.width=5, fig.height=4>>=
+tval <- seq(-5,5, length.out = 200)
+tprob <- sapply(tval, FUN = function(x){dt(x, df=10)})
+plot(tval, tprob, type="l", xlab="T-value", ylab= "Probability density", main="Expected t-values when $D=0$", lwd=5, las=1)
+segments(x0=qt(p = 0.025, 10), y0 = 0, y1=0.1, col="red", lwd=5, lty=2)
+segments(x0=qt(p = 0.975, 10), y0 = 0, y1=0.1, col="red", lwd=5, lty=2)
+polygon(x=c(tval[1], qt(p = 0.025, 10), rev(tval[tval<qt(p = 0.025, 10)])), y=c(0,0, rev(tprob[tval<qt(0.025,10)])), col="red", border = NA)
+polygon(x=c(tval[length(tval)], qt(p = 0.975, 10), tval[tval>qt(p = 0.975, 10)]), y=c(0,0, tprob[tval>qt(0.975,10)]), col="red", border = NA)
+@
+
+
+\section{Different model representations}
+
+<<>>=
+resp <- read.csv("Data/d_respiration.csv")
+resp_H <- subset(resp,Variation == "High")
+resp_L <- subset(resp,Variation == "Low")
+@
+
+<<ttestrep, dev='tikz', fig.width=5, fig.height=4>>=
+par(las=1)
+plot(y=resp_L$rrarea,
+     x = as.numeric(resp_L$Plant_type),
+     xaxt="n",xlim = c(0.5,2.5), 
+     xlab="Plant type", ylab="Dark respiration", pch=16, cex=2, col=rgb(1,0,0,0.5))
+axis(side = 1, at = c(1,2), labels = c("C3", "C4"))
+arrows(x0 = 1.5, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C3"]),
+       y1=mean(resp_L$rrarea[resp_L$Plant_type=="C4"]), code=3, col = "dark red", lwd=5)
+arrows(x0=0.7, x1=1.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C3"]), code=0, col = "red", lwd=5)
+arrows(x0=1.7, x1=2.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C4"]), code=0, col = "red", lwd=5)
+@
+
+<<aovrep, dev='tikz', fig.width=5, fig.height=4>>=
+set.seed(1235)
+xpos <- c(rnorm(sum(resp_L$Plant_type=="C3"), mean = 1, sd = 0.08),
+         rnorm(sum(resp_L$Plant_type=="C4"), mean = 2, sd = 0.08))
+
+plot(x=xpos, y=resp_L$rrarea, 
+          xaxt="n",xlim = c(0.5,2.5), 
+     xlab="Plant type", ylab="Dark respiration", pch=16, cex=2, col=rgb(1,0,0,0.5))
+axis(side = 1, at = c(1,2), labels = c("C3", "C4"))
+
+arrows(x0=0.7, x1=1.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C3"]), code=0, col = "red", lwd=5, lty=2)
+arrows(x0=1.7, x1=2.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C4"]), code=0, col = "red", lwd=5, lty=2)
+arrows(x0=0.5, x1=2.5, y0=mean(resp_L$rrarea), code=0, col =rgb(0.1,0.1,0.5,0.9), lwd=5, lty=2)
+
+arrows(x0 =xpos, y0=c(rep(mean(resp_L$rrarea[resp_L$Plant_type=="C3"]), times=sum(resp_L$Plant_type=="C3")),
+                      rep(mean(resp_L$rrarea[resp_L$Plant_type=="C4"]), times=sum(resp_L$Plant_type=="C4"))),
+       y1=resp_L$rrarea, code=0, col="dark red")
+arrows(x0=c(1,2), y0=rep(mean(resp_L$rrarea), times=2),
+       y1=c(mean(resp_L$rrarea[resp_L$Plant_type=="C3"]),
+        mean(resp_L$rrarea[resp_L$Plant_type=="C4"])),
+       col=rgb(0.1,0.1,0.5,0.7), lwd=8, code=0)
+
+@
+
+
+<<lmrep, dev='tikz', fig.width=5, fig.height=4>>=
+set.seed(1235)
+xpos <- as.numeric(resp_L$Plant_type)
+
+plot(x=xpos, y=resp_L$rrarea, 
+          xaxt="n",xlim = c(0.5,2.5), 
+     xlab="Plant type", ylab="Dark respiration", pch=16, cex=2, col=rgb(1,0,0,0.5))
+axis(side = 1, at = c(1,2), labels = c("C3", "C4"))
+
+arrows(x0=0.7, x1=1.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C3"]), code=0, col = "red", lwd=5, lty=2)
+arrows(x0=1.7, x1=2.3, y0=mean(resp_L$rrarea[resp_L$Plant_type=="C4"]), code=0, col = "red", lwd=5, lty=2)
+
+lm1 <- lm(rrarea ~ Plant_type, data=resp_L)
+abline(a = lm1$coefficients[1]-lm1$coefficients[2], b = lm1$coefficients[2], lwd=5, col=rgb(0.8,0.1,0.1,0.8))
+@
+
+
+  <<lmprinc, echo=FALSE, dev='tikz', fig.width=8, fig.height=6>>=
+    setPar()
+    set.seed(123)
+    x <- rnorm(20)
+    y <- 1 + x + rnorm(20)
+    plot(x, y, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}")
+    lm0 <- lm(y~x)
+    abline(lm0, col="red", lwd=5)
+    abline(h=coef(lm0)[1], lty=2, col="blue", lwd=5)
+    abline(v=0)
+    abline(h=0)
+    
+    arrows(x0 = x, y0=y, y1=lm0$fitted.values, code=0, col="gray", lwd=3)
+  @ 
+\end{document}
