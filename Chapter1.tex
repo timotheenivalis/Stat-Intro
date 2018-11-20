@@ -1036,4 +1036,250 @@ ggplot(lm1.results,aes(Plant_type,emmean, fill=Plant_type))+
 \end{frame}
 %%%%%%%%%%%
 
+
+\begin{frame}{Another example}
+
+\begin{block}{\textbf{Compare wheat yields between 3 varieties}}
+\begin{itemize}
+  \item Outcome measure: Tonnes/hectare
+  \item Experimental factor: Variety (new/newPLUS/standard)
+  \item Data:  6 plots/ variety
+\end{itemize}
+\end{block}
+
+\begin{columns}
+ \begin{column}{0.5\textwidth}
+  \includegraphics[width=\textwidth]{Figures/wheat}
+ \end{column}
+\begin{column}{0.5\textwidth}
+    How many parameters in this model?
+ \end{column}
+\end{columns}
+
+.
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Results from Wheat Yield Experiment with 3 Varieties}
+ \includegraphics[width=0.9\textwidth]{Figures/wheatyield}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Analyse these data in R}
+ 
+ \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+ wheat2<-read.csv("wheat yield PLUS.csv”)
+str(wheat2) #check data types for each variable
+View(wheat2) #View data
+ggplot(wheat2, aes(Variety, Yield, colour=Variety)) +
+            geom_point()
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Sample analysis in R: 1-way ANOVA}
+ 
+  \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+aov1=aov(Yield~Variety, data = wheat2)
+summary(aov1)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+  Df 	Sum Sq    Mean Sq 	F value  	Pr(>F)   
+Variety      2 	0.6820        0.3410         8.951 		0.00276 **
+Residuals 15 	0.5714        0.0381   
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+ \begin{alertblock}{ANOVA}
+ \begin{itemize}
+  \item Compares means between TWO or MORE GROUPS
+  \item Relies on F-statistic = $\frac{\text{Between-groups variance}}{\text{Within groups variance}} = \frac{\text{Explained}}{\text{Unexplained}}$ 
+  \item One test for significance of all groups
+ \end{itemize}
+ \end{alertblock}
+ 
+ \pause
+ 
+ \emph{But which groups are different???}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Using emmeans to extract group estimates}
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+emmeans(aov1, ~Variety)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+Variety   	 emmean   	SE 	df    lower.CL    upper.CL
+ Standard 	2.81 		0.079 	15 	2.64 	2.98
+ New      		3.26 		0.079 	15 	3.09 	3.43
+ NewPlus  	3.19 		0.079 	15 	3.02 	3.36
+ 
+Confidence level used: 0.95 
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Using emmeans to compare groups}
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+emmeans(aov1, pairwise~Variety)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+$contrasts
+ contrast              		estimate        SE 	df  	 t.ratio  p.value
+ Standard - New    	 -0.44 	   0.112 	15  	-3.925  0.0036
+ Standard – NewPlus	 -0.37 	   0.112 	15  	-3.330  0.0120
+ New - NewPlus      	 0.06 	   0.112 	15   	 0.595  0.8248
+ 
+P value adjustment: tukey method for comparing a family of 3 estimates
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Equivalent with \texttt{lm()}}
+    \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+lm2<-lm(Yield ~ Variety, data = wheat2) 
+anova(lm2)
+summary(lm2)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+Analysis of Variance Table
+ Response: Yield
+          	Df 	 Sum Sq 	Mean Sq     F value   Pr(>F)   
+Variety       2 	0.68203   	0.34101       8.9513    0.002764 **
+Residuals 15 	0.57145  	0.03810 
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+Coefficients:
+               	Estimate  Std. Error    t value     Pr(>|t|)    
+(Intercept)     	2.81857    0.07968     35.372     7.26e-16 ***
+VarietyNew      	0.44235    0.11269       3.925     0.00135 ** 
+VarietyNewPlus 	0.37529    0.11269       3.330     0.00457 ** 
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Equivalent with \texttt{lm()}}
+    \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+ emmeans(lm2, pairwise~Variety)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+   \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.9, 0.9, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+$emmeans
+ Variety    emmean         SE      df    lower.CL upper.CL
+ Standard     2.81       0.0796    15      2.64       2.98
+ New            3.26        0.0796   15       3.09      3.43
+ NewPlus     3.19        0.0796   15       3.02      3.36
+ 
+Confidence level used: 0.95 
+ 
+$contrasts
+ contrast              estimate        SE      df    t.ratio p.value
+ Standard - New          -0.44    0.112   15  -3.925  0.0036
+ Standard - NewPlus   -0.37    0.112   15  -3.330  0.0120
+ New - NewPlus           0.067   0.112   15   0.595  0.8248
+ 
+P value adjustment: tukey method for comparing a family of 3 estimates 
+             
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Assessing model assumptions for \texttt{lm()}}
+     \begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\footnotesize
+\begin{verbatim}
+ plot(lm2)
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+ 
+ \begin{figure}
+  \includegraphics[width=0.49\textwidth]{Figures/assump1}
+  \includegraphics[width=0.49\textwidth]{Figures/assump2}
+ \end{figure}
+
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}{Summary of results with post hoc comparisons:}
+\centering
+\includegraphics[width=0.7\textwidth]{Figures/wheatres}
+\end{frame}
+%%%%%%%%%%%%
+
+
 \end{document}
