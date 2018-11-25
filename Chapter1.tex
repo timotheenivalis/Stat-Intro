@@ -602,18 +602,48 @@ ${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\colo
 
 
 \begin{frame}{But really, what is a p-value?}
+
  \begin{block}{Candy practical}
- 
- You got 5 Halloween candies out of the bag. Does the bag contain more Halloween than normal candies?
- 
- %collect null-distribution data
- %plot in R
- %create null distribution in R
+ \begin{itemize}[<+->]
+  \item You got a pack of 20 candies with a mix of Halloween and Fruit candies
+  \item You pick one, it's a Halloween one\dots looks quite disgusting. You put in back
+  \item You pick a second one. Again a disgusting Halloween candy! You put it back
+  \item And so on, until 5 candies. You wonder if you have been cheated.
+  \item Are there more Halloween than Fruit candies in that pack?
+  \item You decide to use statistics to find out
+ \end{itemize}
  \end{block}
- 
+
+
+ \begin{exampleblock}{How to?}
+  \begin{itemize}[<+->]
+   \item Draw 5 candies out of the pack
+   \item Write down how many Halloween candies
+   \item How often is it 5?
+  \end{itemize}
+ \end{exampleblock}
+  
 \end{frame}
 %%%%%%%%%%%%
 
+\begin{frame}{But really, what is a p-value?}
+
+ \begin{exampleblock}{}
+  \begin{itemize}
+   \item Draw 5 candies out of the pack
+   \item Write down how many Halloween candies
+   \item How often is it 5?
+   \pause
+   \item Estimate the p-value for the test ``candies have same frequency''
+   \pause
+   \item Redo the experiment in R, using random sampling (rbinom)
+   \pause
+   \item What is the correct null-distribution?
+  \end{itemize}
+ \end{exampleblock}
+  
+\end{frame}
+%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Back to C3/C4 plants. Analyse real data in R}
 
