@@ -394,5 +394,43 @@ glm(formula = obs ~1 + x, family = "quasipoisson", data=data)
 \end{frame}
 %%%%%%%%%%%%
 
+\begin{frame}{Practice with Poisson glm}
+ 
+  \begin{exampleblock}{Exercise}
+    \begin{enumerate}
+      \item Load the data reproduction.csv
+      \item Plot reproduction data, calculate the mean and variance. 
+      \item Overlay a Gaussian distribution of same mean and variance, does it fit?
+      \item Fit an compare a lm and a Poisson glm of reproduction on size 
+      \item Check the diagnostic plots for both models. Should you be worried?
+      \item Extract and visualize a model prediction from both models (use the function predict, and/or do it by hand to practice link-function back-transformation)
+      \item Before GLMs, researchers used to log-transform the data and fit linear models. What are the problems with this approach?
+    \end{enumerate}
+  \end{exampleblock}
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{Can we decrease aggressive behavior in noisy miners?}
+\begin{columns}
+ \begin{column}{0.6\textwidth}
+ \begin{block}{Context}
+  \begin{itemize}
+    \item ``Harassment.Data.csv''
+    \item Outcome measure: number of attacks\\
+    \item Experimental factor: Removal of noisy miners (Control/Treatment); Just-After Treatment / long-term (``Phase'')\\
+    \item Data: 6 farms, 8 one-hour surveys for each combination
+    \end{itemize}
+   \end{block}
+  \end{column}
+  \begin{column}{0.4\textwidth}
+   \includegraphics[width=0.9\textwidth]{Figures/noisyminer}
+  \end{column}
+
+\end{columns}
+
+ 
+\end{frame}
+%%%%%%%%%%%%
+
 
 \end{document}

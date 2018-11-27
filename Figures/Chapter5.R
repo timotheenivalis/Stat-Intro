@@ -50,3 +50,17 @@ summary(glm(obs ~ 1 + x*sex, family = binomial()))
 presencedat <- data.frame(survival=obs, weight=x, sex=c("Female","Male")[sex+1])
 
 write.csv(presencedat, file = "Data/survivalweight.csv")
+
+
+har <- read.csv("Data/Harassment.Data.csv")
+
+str(har)
+summary(har)
+plot(har$Sum.of.Victim_numb)
+
+summary(glm(Sum.of.Victim_numb ~ 1 + Treatment+Phase, family = "poisson", data = har))
+summary(glm(Sum.of.Victim_numb ~ 1 + Phase, family = "poisson", data = har))
+
+library(lme4)
+summary(glmer(Sum.of.Victim_numb ~ 1 + Treatment + (1|Site), family = "poisson", data = har))
+summary(glmer(Sum.of.Victim_numb ~ 1 + Treatment + Phase + (1|Site), family = "poisson", data = har))
