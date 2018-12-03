@@ -1,7 +1,7 @@
 # Statistical thinking
 
 Material for a three-days introductory course to statistical thinking in biology.
-The course was developped based on material from Dr. Teressa Neeman, statistician at the Australian National University.
+The course was developped based on material from Dr. Teresa Neeman, statistician at the Australian National University.
 
 Content :
 * [Bases of statistical thinking and modelling](https://github.com/timotheenivalis/Stat-Intro/blob/master/Chapter1.pdf)
