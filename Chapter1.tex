@@ -1,4 +1,4 @@
-\documentclass[11pt]{beamer}
+\documentclass[10pt]{beamer}
 
 \setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
 
@@ -99,6 +99,22 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{A bit of history of statistical methods}
+ 
+ R.A. Fisher: 1890-1962
+ \only<1>{\begin{center}
+  \includegraphics[width=0.5\textwidth]{Figures/fisher}
+ \end{center}}
+ 
+ \only<2>{\begin{center}
+  \includegraphics[width=0.9\textwidth]{Figures/fields}
+ \end{center}}
+ 
+ Statistical Principles for Research Workers (1925)
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{The big picture}
 \begin{quote}
 To call in the statistician after the experiment is done may be no more than asking him to perform a post-mortem examination: he may be able to say what the experiment died of.
@@ -150,7 +166,7 @@ If you want, send me your data with a brief explanation of they are and what you
 \begin{block}{}
 \begin{itemize}[<+->]
  \item Statistics in biology = study biological variation
- \item Undestanding biological variation:
+ \item Undestanding statistical ideas about biological variation:
     \begin{itemize}
      \item Informs the design of experiments
      \item Informs the analysis of experiments
@@ -161,21 +177,7 @@ If you want, send me your data with a brief explanation of they are and what you
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{A bit of history of statistical methods}
- 
- R.A. Fisher: 1890-1962
- \only<1>{\begin{center}
-  \includegraphics[width=0.5\textwidth]{Figures/fisher}
- \end{center}}
- 
- \only<2>{\begin{center}
-  \includegraphics[width=0.9\textwidth]{Figures/fields}
- \end{center}}
- 
- Statistical Principles for Research Workers (1925)
 
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cautionary tales from the front}
@@ -248,9 +250,12 @@ If you want, send me your data with a brief explanation of they are and what you
    
    
    \begin{alertblock}{Comparisons made using t-tests}
-Evidence of difference + No evidence of difference $\neq$ Evidence that differences are different.
-      \end{alertblock}
-      
+   
+    \begin{center}
+        Evidence of difference + No evidence of difference \\ $\neq$ \\ Evidence that differences are different.
+    \end{center}
+
+  \end{alertblock}
       
 \end{frame}
 %%%%%%%%%%%
@@ -387,29 +392,29 @@ Evidence of difference + No evidence of difference $\neq$ Evidence that differen
 \begin{frame}{Message 5: Knowing what factors contribute to the variation in outcome helps design experiments and analyses}
  \pause
  Research question: 
-How does cold duration impact upon germination in alpine plant A. glacialis?
+How does cold duration impact upon germination in alpine plant \textit{A. glacialis}?
 
   \begin{columns}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
 	\begin{center}
 	\includegraphics[width=\textwidth]{Figures/message5}
 	\end{center}
     \end{column}
     
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.6\textwidth}
     \begin{block}{Experimental set-up:}
       \begin{itemize}
 	\item Seed collections from alpine region in Australia
-	\item 3 Regions- low/high altitude
+	\item 3 Regions -- low/high altitude
 	\item 4 sets of Petri dishes
-	\item 4 cabinet shelves
+	\item 4 cabinet shelves with different temperatures
 	\item Response - \% germinated
       \end{itemize}
       \end{block}
     \end{column}
   \end{columns}
    \vspace{0.1cm}
-  \textbf{\emph{What other factors are important to consider when comparing cold duration? }}
+  \textbf{\emph{What factors other than temperature to consider? }}
 \end{frame}
 %%%%%%%%%%%
 
@@ -431,11 +436,11 @@ How does cold duration impact upon germination in alpine plant A. glacialis?
 \begin{frame}{Introduction to Statistical Modelling}
  \begin{itemize}
   \item What is a statistical model?
-  \item Modelling outcomes:
+  \item What models can do:
     \begin{itemize}
-      \item a summary of data 
-      \item a prediction model 
-      \item an explanatory model
+      \item summary of data 
+      \item predictions 
+      \item correlation/causal inference
      \end{itemize}
   \item Model – may take many different functional forms
   \item Model – a conceptualization of the experiment 
@@ -447,21 +452,20 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
 
 \begin{frame}{Key components of a statistical model of an experiment}
  \begin{itemize}
-  
-\item Outcome measure
+\item \textbf{Outcome measure}
   \begin{itemize}
     \item Response variable
     \item Measure of interest
   \end{itemize}
-\item Experimental factors 
+\item \textbf{Experimental factors}
   \begin{itemize}
     \item Conditions that can be manipulated 
     \item Conditions of interest (e.g. genotype, gender) 
     \item Main questions: do the conditions impact upon the outcome measure?
   \end{itemize}
-\item Blocking factors
+\item \textbf{Blocking factors}
   \begin{itemize}
-    \item Conditions (not of interest) that may impact upon the outcome measure
+    \item Conditions (not of interest) that may impact upon the outcome
     \item Sources of variation in the experiment that need to be controlled for
     \item Clustering of experimental units
  \end{itemize}
@@ -645,7 +649,7 @@ ${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\colo
 
 
 \begin{frame}{When can we know whether $D \neq 0$ ?}
-\textbf{p-value}: probability (area under curve) of getting a value as extreme as what you observed, when D=0
+\textbf{p-value}: probability (area under curve) of getting a value as extreme as what you observed, when the true D=0
 \centering  \includegraphics[width=0.7\textwidth]{Figures/figure/tvalueth-1}
 \end{frame}
 %%%%%%%%%%%%
@@ -664,19 +668,21 @@ ${\color{purple}{response}} = {\color{blue}{A}} + {\color{red}{D}} \times {\colo
  \end{itemize}
  \end{block}
 
-
+\only<6->{
  \begin{exampleblock}{How to?}
-  \begin{itemize}[<+->]
+  \begin{itemize}
    \item Draw 5 candies out of the pack
    \item Write down how many Halloween candies
    \item How often is it 5?
   \end{itemize}
  \end{exampleblock}
-  
+  }
 \end{frame}
 %%%%%%%%%%%%
 
 \begin{frame}{But really, what is a p-value?}
+
+\url{https://docs.google.com/spreadsheets/d/1Y9512z1xxkphjAZ_dYT9SqfQH02UqTDKlW2X0mDEwZY/edit?usp=sharing}
 
  \begin{exampleblock}{}
   \begin{itemize}
@@ -911,7 +917,7 @@ Confidence level used: 0.95
 
 \begin{frame}{All is one\dots}
 \pause
-  \begin{block}{\dots but \texttt{lm()} rules (IMH)}
+  \begin{block}{\dots but \texttt{lm()} rules (IMHO)}
     \begin{itemize}
       \item t-test, ANOVA, regression and others can be mathematically equivalent
       \item In R, \texttt{lm()} and related functions can do them all\dots
@@ -921,6 +927,13 @@ Confidence level used: 0.95
 \end{frame}
 %%%%%%%%%%%
 
+
+\begin{frame}{All is one\dots}
+\centering
+    \includegraphics[width=0.8\textwidth]{Figures/modeldecision}\\
+ALL can be done as linear models
+\end{frame}
+%%%%%%%%%%%
 
 % more on LM, general steps, and another example
 \begin{frame}{Focus on linear models}
