@@ -1,8 +1,13 @@
-\documentclass{beamer}
+\documentclass[11pt]{beamer}
+
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
 
 \usepackage{alltt}%
-\usetheme{Boadilla}
-\usecolortheme{seahorse}
+%\usetheme{Boadilla}
+\usetheme[progressbar = foot, background=light]{metropolis} 
+%\useoutertheme{split}
+
+%\usecolortheme{beaver}
 
 %\usepackage{listings}
 \makeatletter
@@ -51,8 +56,7 @@
 \definecolor{warningcolor}{rgb}{1, 0, 1}
 \definecolor{errorcolor}{rgb}{1, 0, 0}
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
-
-
+    
 \usepackage[utf8]{inputenc}
 \usepackage{default}
 
@@ -72,18 +76,19 @@
 
 \title{Statisitcal Thinking in Biology Research}
 \subtitle{Chapter 1}
-\author{Terry Neeman and Timoth\'ee Bonnet}
+\author[T.Bonnet, T. Neeman]{Timoth\'ee Bonnet \& Terry Neeman}
+\institute[RSB/BDSI]{Research School Biology and Biological Data Science Institute}
 \date{\today}
 
 \begin{document}
 
 %\lstset{language=R}%code
-
+\setbeamerfont{section in toc}{size*={14}{16}}
 \AtBeginSection[]
 {
   \begin{frame}<beamer>
     \frametitle{}
-    \tableofcontents[currentsection,sectionstyle=show/show,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
+    \tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
   \end{frame}
 }
 
@@ -94,20 +99,65 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Acknowledgemnts and warning}
+\begin{frame}{The big picture}
+\begin{quote}
+To call in the statistician after the experiment is done may be no more than asking him to perform a post-mortem examination: he may be able to say what the experiment died of.
+\end{quote}
+\textbf{Sir Ronald Fisher} \\ \footnotesize Presidential Address to the First Indian Statistical Congress, 1938. Sankhya 4, 14-17
+
+\pause
+
+\vfill
+\textbf{You won't need to call in a statistician too often if you are (almost) one yourself}
+\vfill
+
+\pause 
+
+\begin{exampleblock}{Statistics is\dots}
+    \begin{enumerate}
+     \item interesting
+     \item a unifying language of sciences
+     \item empowering 
+    \end{enumerate}
+\end{exampleblock}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Key ideas for today}
+\begin{frame}{Approximate plan}
+\begin{columns}
+ \begin{column}{0.2\textwidth}
+  
+ \end{column}
+ \begin{column}{0.8\textwidth}
+ \begin{exampleblock}{}
+    \begin{itemize}
+     \item[Monday morning] Cautionary tales, General approach to modelling
+     \item[Monday afternoon] Experimental design
+     \item[Tuesday morning] Mean structure, \textit{additive effects and interactions}
+     \item[Tuesday afternoon] Variance structure, \textit{mixed models}
+     \item[Wednesday] Data generating process, \textit{GLMs}; + practice with your data?
+    \end{itemize}
+    \end{exampleblock}
+    \end{column}
+\end{columns}
 
+If you want, send me your data with a brief explanation of they are and what you want to do
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Key ideas for today}
+\begin{block}{}
 \begin{itemize}[<+->]
- \item Statistics in biology is the study of biological variation
- \item Statistical ideas about biological variation inform the design of experiments
- \item Statistical ideas about biological variation inform the analysis of experiments
+ \item Statistics in biology = study biological variation
+ \item Undestanding biological variation:
+    \begin{itemize}
+     \item Informs the design of experiments
+     \item Informs the analysis of experiments
+    \end{itemize}
  \item Statistical thinking is an essential component of scientific thinking
 \end{itemize}
-
+\end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
