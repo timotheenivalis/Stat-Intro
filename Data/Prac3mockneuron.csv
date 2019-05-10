@@ -1,0 +1,17 @@
+Neuron,Location,Treat,MP
+1,Dendrite,Control,-75.3
+1,Dendrite,Treat,-76.5
+1,Soma,Control,-73.6
+1,Soma,Treat,-77.5
+2,Dendrite,Control,-76.6
+2,Dendrite,Treat,-76.2
+2,Soma,Control,-76.7
+2,Soma,Treat,-80.9
+3,Dendrite,Control,-75.0
+3,Dendrite,Treat,-74.3
+3,Soma,Control,-74.5
+3,Soma,Treat,-79.0
+4,Dendrite,Control,-75.5
+4,Dendrite,Treat,-79.0
+4,Soma,Control,-75.9
+4,Soma,Treat,-80.6
