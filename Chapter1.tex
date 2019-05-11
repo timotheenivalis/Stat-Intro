@@ -238,7 +238,7 @@ If you want, send me:
   \begin{columns}
     \begin{column}{0.5\textwidth}
 	\begin{center}
-	\includegraphics[width=\textwidth]{Figures/message2}
+	\includegraphics[width=\textwidth]{Figures/drought}
 	\end{center}
     \end{column}
     
@@ -255,8 +255,8 @@ If you want, send me:
   \end{columns}
    
    
-   \begin{alertblock}{Comparisons made using t-tests}
-   Significant 
+   \begin{alertblock}{T-tests between water conditions:}
+GM: p=0.46 ; Wt: p=0.02
    \pause
     \begin{center}
         Evidence of difference + No evidence of difference \\ $\neq$ \\ Evidence that differences are different.
@@ -441,24 +441,26 @@ How does cold duration impact upon germination in alpine plant \textit{A. glacia
 \section{Introduction to Statistical Modelling}
 
 \begin{frame}{Introduction to Statistical Modelling}
- \begin{itemize}
-  \item What is a statistical model?
-  \item What models can do:
-    \begin{itemize}
-      \item summary of data 
-      \item predictions 
-      \item correlation/causal inference
-     \end{itemize}
-  \item Model – may take many different functional forms
-  \item Model – a conceptualization of the experiment 
- \end{itemize}
+ 
+ \begin{block}{What is a statistical model?}
  \pause
-ALWAYS BEGIN WITH A RESEARCH QUESTION
+   \begin{itemize}
+      \item A formal but simplified representation of the world / an experiment
+      \item If the representation is good enough for our goal\dots
+      \item \dots we can learn something from data
+    \end{itemize}
+ \end{block}
+
+ 
+ \pause
+ \includegraphics[width=0.5\textwidth]{Figures/mapaus}
+ 
+
 \end{frame}
 %%%%%%%%%%%%
 
 \begin{frame}{Key components of a statistical model of an experiment}
- \begin{itemize}
+ \begin{enumerate}
 \item \textbf{Outcome measure}
   \begin{itemize}
     \item Response variable
@@ -476,16 +478,19 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
     \item Sources of variation in the experiment that need to be controlled for
     \item Clustering of experimental units
  \end{itemize}
-\end{itemize}
+\end{enumerate}
+\pause
+  \alert{ALWAYS BEGIN WITH A RESEARCH QUESTION}\\
+  $=>$ what is outcome / exp factors / blocking factors; \\
+  $=>$ Do not make-up hypotheses a-posteriori
 
-
-ALWAYS BEGIN WITH A RESEARCH QUESTION
 \end{frame}
 %%%%%%%%%%%
 
 \begin{frame}{Key Objectives of a statistical model of an experiment}
+
 \begin{itemize}
- \item To compare the mean response of an organism/system to a set of different experimental conditions.
+ \item Compare mean response across different experimental conditions.
   \begin{itemize}
    \item Obtain estimate of “Treatment effect”
    \item Is this “effect” different in subgroups of interest?
