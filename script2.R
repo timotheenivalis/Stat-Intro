@@ -1,5 +1,5 @@
 lwr <- read.csv("Data/Prac3mockLWR.csv")
-
+summary(lwr)
 str(lwr)
 
 library(ggplot2)
@@ -8,19 +8,25 @@ ggplot(data = lwr, aes(GeneB, LWR, color=GeneA)) +
   geom_boxplot()+
   geom_point()
 
+
 addlm <- lm(LWR ~ 1 + GeneA+GeneB, data = lwr)
 summary(addlm)
 
-fullfactlm <- lm(LWR ~ 1 + GeneA*GeneB, data = lwr)
+fullfactlm <- lm(LWR ~ 1 + GeneA+GeneB+GeneA:GeneB, data = lwr)
 summary(fullfactlm)
+
+
 plot(fullfactlm)
 summary(aov(LWR ~ 1 + GeneA*GeneB, data = lwr))
 
 anova(fullfactlm)
 
 library(emmeans)
-emmeans(fullfactlm, pairwise ~ GeneA|GeneB)
+emmeans(fullfactlm, pairwise ~ GeneA*GeneB)
+emmeans(fullfactlm, pairwise ~ GeneA)
+emmeans(fullfactlm, pairwise ~ GeneB)
 
+plot(fullfactlm)
 
 
 cabb <- read.csv("Data/Prac3cabbagedata.csv")
@@ -32,7 +38,7 @@ ggplot(cabb, aes(x = Date, y=VitC, color=Cult))+geom_boxplot()
 ggplot(cabb, aes(x = Cult, y=VitC))+geom_boxplot()
 
 #### Additive ####
-cablm <- lm(VitC ~ 1 + Cult + Date, data = cabb)
+cablm <- lm(VitC ~ 1 + Cult + HeadWt * Date, data = cabb)
 summary(cablm)
 plot(cablm)
 
@@ -46,15 +52,17 @@ plot(lm(VitC ~ 1 + Cult*Date, data = cabb))
 
 tom <- read.csv("Data/Prac3droughtdata.csv")
 
-ggplot(tom, aes(x=Genotype, y=Temperature, color=WaterCondition))+geom_boxplot()
+ggplot(tom, aes(x=Genotype, y=Temperature, color=WaterCondition))+
+  geom_boxplot()
 
 lmtom <- lm(Temperature ~ 1 + WaterCondition*Genotype, data=tom)
 summary(lmtom)
-summary(aov(Temperature ~ 1 + WaterCondition*Genotype, data=tom))
+summary(aov(Temperature ~ 1 + Genotype*WaterCondition, data=tom))
 anova(lmtom)
 summary(aov(Temperature ~ 1 + Genotype+WaterCondition, data=tom))
 
 emmeans(lmtom, pairwise ~ Genotype|WaterCondition)
+emmeans(lmtom,  pairwise~ WaterCondition)
 
 
 x <- rnorm(100)
@@ -70,7 +78,10 @@ summary(aov(y~x+x2))
 library(ggplot2)
 tree <- read.csv("Data/Prac3forest.csv")
 str(tree)
-ggplot(tree, aes(x = QuadDiam, y=Density, color=StandType)) + geom_point()
+ggplot(tree, aes(x = QuadDiam, y=Density,
+                 color=StandType)) +
+  geom_point()+
+  geom_smooth(method="lm")
 
 lm0 <- lm(Density ~ 1, data=tree)
 summary(lm0)

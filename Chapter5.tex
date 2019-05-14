@@ -83,13 +83,33 @@
 
 %\lstset{language=R}%code
 
+\setbeamerfont{section in toc}{size*={14}{16}}
 \AtBeginSection[]
 {
   \begin{frame}<beamer>
     \frametitle{}
-    \tableofcontents[currentsection,sectionstyle=show/show,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
+    \tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
   \end{frame}
 }
+
+
+
+\begin{frame}[plain]{Where to find help?}
+    \begin{block}{}
+        \begin{itemize}
+         \item The Internet
+         \item Colleagues
+         \item (books: learn BEFORE you have an issue)
+         \item Courses, workshops, consulting
+        \end{itemize}
+  \pause  
+    \includegraphics[width=\textwidth]{Figures/bdsi}
+    BDSI: Terry Neeman, Marcin Adamski, Cameron Jack, myself \dots
+    \end{block}
+\pause
+    \alert{\large + R-Ladies, Coding Club}
+\end{frame}
+%%%%%%%%%%%%
 
 
 \begin{frame}{}
@@ -138,10 +158,17 @@
 
 \begin{frame}{What we want our model to do}
 \centering
- \includegraphics[width=0.6\textwidth]{Figures/figure/binglmprinc-1}
-\end{frame}
-%%%%%%%%%%%%
+\includegraphics[width=0.5\textwidth]{Figures/logreg1-1.pdf}
 
+\begin{block}{What we need:}
+  \begin{enumerate}[<+->]
+    \item Convert the predictor open scale ($-\infty$ to $+\infty$) to a bounded scale (0 to 1)
+    \item Acknowledge discrete data
+    \item Response variability depends on expected value
+  \end{enumerate}
+\end{block}
+\end{frame}
+%%%%%%%%%%%
 
 \begin{frame}{That is what a Generalized Linear Model does}
 
@@ -155,16 +182,18 @@
 \pause
 
 \begin{block}{What a GLM is:}
-  \begin{enumerate}
-    \item A linear function ($y = \mu + \beta x$ \dots)
-    \item A probability distribution (Bernouilli, Binomial, Poisson\dots)
-    \item A "link function" to convert between the scale of the linear function ($-\infty$ to $+\infty$) and the scale of the data and the probability distribution (often positive integer: 0, 1, 2, 3\dots)
+  \begin{enumerate}[<+->]
+    \item \textbf{Linear function} (reponse = intercept + slope $\times$ predictor \dots)
+    \item ``\textbf{Link function}" = a map between the linear function ($-\infty$ to $+\infty$) and a probability distribution (from 0 to 1 for Bernouilli)
+    \item \textbf{Probability distribution} (Bernouilli, Binomial, Poisson\dots) thought to generate the data (either 0 or 1 for Bernouilli)
   \end{enumerate}
-  A GLM fits a continuous expected response; we observe discrete realizations
+\pause[\thebeamerpauses]
+
+GLMs fit continuous expected response; we observe discrete realizations
 \end{block}
 
 \end{frame}
-%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Binary data}
@@ -177,9 +206,7 @@
     \item Binary or proportion data (survival, presence/absence\dots)
     \item Binomial probability distribution ( = Bernouilly if binary data)
     \item Link function often logit: $y=\log(\frac{probability}{1-probability})$
-    \item Back-transformation inverse-logit: $probability = \frac{1}{1 + exp(-y)}$
     \item Linear function $y = intercept + slope_1 predictor_1 + slope_2 predictor_2 +$
-    \item For a given predicted $y$, $\exp(y)$ is the odd ratio: probability success / probability failure
   \end{itemize}
   
   
@@ -205,8 +232,38 @@ var(bernouilli_random_sample); 0.3*(1-0.3)
 \end{frame}
 %%%%%%%%%%%%
 
+
+\begin{frame}{What to do with logistic regression}
+\centering
+\only<1-2>{\includegraphics[width=0.5\textwidth]{Figures/logreg1-1.pdf}}
+
+\only<3>{
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.5\textwidth,height=0.5\textheight]{Figures/logreg2-1} 
+
+\end{knitrout}
+}
+
+\only<4>{
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.5\textwidth,height=0.5\textheight]{Figures/logreg3-1} 
+
+\end{knitrout}
+}
+
+\begin{block}{}
+\begin{enumerate}[<+->]
+  \item Response increase/decrease with increasing predictor?
+  \item Estimate probability of 0/1 given a predictor value
+  \item Predict 0/1 and classify predictor values ($\rightarrow$ Machine Learning)
+\end{enumerate}
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
   
-\begin{frame}[fragile]{Logistic regression in R}
+\begin{frame}[fragile]{Logistic regression in R} 
 
     
 \begin{knitrout}
@@ -219,13 +276,102 @@ glm(formula = obs ~ 1 + x, family = "binomial", data=data)
 
 \end{frame}
 %%%%%%%%%%%%
-
 \begin{frame}{Does survival probability depend on size?}
  
-  \begin{exampleblock}{Exercise, part 1}
+ \begin{exampleblock}{Exercise, part 1}
     \begin{enumerate}
       \item Load \texttt{survivalsize.csv}
       \item Plot survival data. What kind of distribution is it?
+      \item Logistic GLM of survival as a function of size. How does size correlates with survival?
+      \item What is the unit of coefficients?
+    \end{enumerate}
+  \end{exampleblock}
+  
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}{Back-transformation}
+\begin{center}
+\begin{tikzpicture}
+\node (sc) at (-6, 0.5) {\textbf{Scales:}};
+\uncover<2->{
+  \node (mininf) at (-4,0) {$- \infty $};
+  \node (maxinf) at (4,0) {$+ \infty $};
+  \node (binf) at (-3,0) {};
+  \node (tinf) at (3,0) {};
+  \node (zer) at (0,0) {$0$};
+  \draw (binf) -- (zer) -- (tinf);
+  \draw[dashed] (binf)--(mininf);
+  \draw[dashed] (tinf)--(maxinf);
+  \node (modest) at (-6,0) {Model estimates};
+}
+\uncover<3->{
+  \node (prb) at (-6,-2) {Probabilities};
+  \node (minpr) at (-4,-2) {0};
+  \node (maxpr) at (4,-2) {1};
+  \node (zerp) at (0,-2) {$0.5$};
+  \draw (minpr)-- (zerp) -- (maxpr);
+}
+\uncover<4->{
+  \node (dat) at (-6,-4) {Data};
+  \node (mind) at (-4,-4) {\large \textbf{0}};
+  \node (maxd) at (4,-4) {\large \textbf{1}};
+  \draw[dashed] (mind)--(maxd);
+}
+
+\uncover<5->{
+
+\draw[->, draw=red] (zer) -- (zerp);
+\draw[->, draw=red] (mininf) -- (minpr);
+\draw[->, draw=red] (maxinf) -- (maxpr);
+
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-0.5,0) -- (-0.7,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (0.5,0) -- (0.7,-2);
+
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-1,0) -- (-2,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (1,0) -- (2,-2);
+
+
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-1.5,0) -- (-3.8,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (1.5,0) -- (3.8,-2);
+
+}
+
+\uncover<6->{
+\draw[->, draw=red, dashed, line width=2pt] (zerp) -- (mind);
+\draw[->, draw=red, dashed, line width=2pt] (zerp) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=4pt] (minpr) -- (mind);
+\draw[->, draw=red, dashed, line width=4pt] (maxpr) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=3pt] (-3,-2) -- (mind);
+\draw[->, draw=red, dashed, line width=0.5pt] (-3,-2) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=3pt] (3,-2) -- (maxd);
+\draw[->, draw=red, dashed, line width=0.5pt] (3,-2) -- (mind);
+}
+\end{tikzpicture}
+\end{center}
+
+\uncover<7->{
+\begin{block}{Conversion:}
+\begin{itemize}
+  \item from model to probability: $p=\frac{1}{1+\exp(-x)}$ or \texttt{plogis(x)}
+  \item probability and data on same scale, but continuous/discrete
+  \item $\exp(slope)$ = odd-ratio
+\end{itemize}
+\end{block}
+}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Does survival probability depend on size?}
+ 
+  \begin{exampleblock}{Exercise, part 2}
+    \begin{enumerate}
+      \item Load \texttt{survivalsize.csv}
       \item Fit a linear model and a logistic model with intercept only. How to interpret the estimates?
     \end{enumerate}
   \end{exampleblock}
@@ -243,7 +389,7 @@ glm(formula = obs ~ 1 + x, family = "binomial", data=data)
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}[fragile]{Solutions part 1}
+\begin{frame}[fragile]{Solutions part 2}
      
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -275,7 +421,7 @@ mean(surv$survival)/(1-mean(surv$survival))
 
 \begin{frame}{Does survival probability depend on size?}
  
-  \begin{exampleblock}{Exercise, part 2}
+  \begin{exampleblock}{Exercise, part 3}
     \begin{enumerate}
       \item Fit a linear regression and a logistic regression of survival on relative size, compare the outputs
       \item Check the diagnostic plots for both models. Should you be worried?
@@ -287,7 +433,7 @@ mean(surv$survival)/(1-mean(surv$survival))
 %%%%%%%%%%%
 
 
-\begin{frame}[fragile]{Solutions part 2}
+\begin{frame}[fragile]{Solutions part 3}
      
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -320,6 +466,22 @@ stat_smooth(method = "glm", method.args = list(family = "binomial"))
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}{Model assumptions}
+\begin{block}{Logistic regression assumes:}
+\begin{itemize}[<+->]
+  \item \textbf{Binary data}
+  \item No unaccounted source of correlations in the date (e.g., pseudo-replication, spatial autocorrelations, phylogenetic signal\dots)
+  \item (no error in the predictors)
+  \item (no complete separation = only 0s or only 1s for some predictor level)
+\end{itemize}
+\end{block}
+
+\pause
+
+NO assumptions about the distribution of residuals (Normality, homoscedasticity).\\
+BUT more assumptions in non-binary GLMs (proportions and count data)!!
+
+\end{frame}
 %%%%%%%%%%%
 
 \begin{frame}{More practice: does survival probability depend on weight? does the relationship depend on sex?}
@@ -381,7 +543,7 @@ glm(formula = obs ~1 + x, family = "quasipoisson", data=data)
 \end{kframe}
 \end{knitrout}
 
-\begin{alertblock}{family = "poisson" is dangerous}
+\begin{alertblock}{family = ``poisson" is dangerous}
  \begin{itemize}
   \item A true Poisson distribution has $E(\exp(Y))=V(\exp(Y))$
   \item Assumes no unexplained variation in $Y$
@@ -389,6 +551,7 @@ glm(formula = obs ~1 + x, family = "quasipoisson", data=data)
   \item In nature,  $E(\exp(Y)) < V(\exp(Y))$ most of the time
   \item SE and p-value to small
   \item family = "quasipoisson" correct the uncertainty in \texttt{glm()}
+  \item or mixed model with \texttt{(1|obs)}
   \item other packages never follow the assumption (\texttt{MCMCglmm})
  \end{itemize}
 \end{alertblock}

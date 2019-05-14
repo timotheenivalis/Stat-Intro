@@ -126,6 +126,16 @@ ALWAYS BEGIN WITH A RESEARCH QUESTION
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Simple linear models}
+\centering
+\Large
+  ${\color{purple}{response}} = \underbrace{{\color{blue}{A}} + {\color{red}{D}} \times {\color{orange}{predictor}}}_{\substack{\text{Mean Structure} \\ \text{Experimental factors}}} + 
+  \underbrace{{\color{gray}{\epsilon}}, \text{ with } {\color{gray}{\epsilon \sim N(0,\sigma)}}}_{\substack{\text{Variance Structure} \\ \text{Unrelated to experiment factors} \\ \text{Unexplained ``noise''}}}$
+
+  
+\end{frame}
+%%%%%%%%%%%%
+
 \begin{frame}{Example 1: Can drought tolerance in Arabidopsis be improved through genetic modification?}
 
 \begin{block}{Context}
@@ -253,12 +263,12 @@ How many parameters to describe the different genotypes combinations?
 
 \begin{frame}[fragile]{Analysis in R}
  
- 1. Import data ''Prac3mockLWR.csv''
+ 1. Import data ``Prac3mockLWR.csv''
  
  \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
-  LWR <- read.csv(“Prac3mockLWR.csv")
+  LWR <- read.csv("Prac3mockLWR.csv")
  \end{verbatim}
 \end{kframe}
 \end{knitrout}
